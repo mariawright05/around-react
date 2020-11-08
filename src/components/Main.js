@@ -1,23 +1,7 @@
 import React from 'react';
 import avatar from '../images/avatar.jpg';
 
-function Main () {
-
-  const handleEditAvatarClick = () => {
-    const avatarPopup = document.querySelector(".popup_type_edit-avatar");
-    avatarPopup.classList.add('popup_opened');
-  };
-
-  const handleEditProfileClick = () => {
-    const profilePopup = document.querySelector(".popup_type_edit-profile");
-    profilePopup.classList.add('popup_opened');
-  };
-
-  const handleAddPlaceClick = () => {
-    const cardPopup = document.querySelector(".popup_type_add-card");
-    cardPopup.classList.add('popup_opened');
-  };
-
+function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick }) {
 
   return (
     <main>

@@ -5,17 +5,46 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup';
 
-function App() {
+function App(props) {
+
+  // set states for popups
+  const [isEditProfilePopopOpen, setIsEditProfilePopupOpen] = React.useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+
+  // handler functions for popups  
+  const handleEditAvatarClick = () => {
+    setIsEditAvatarPopupOpen(true);
+  };
+
+  const handleEditProfileClick = () => {
+    setIsEditProfilePopupOpen(true);
+  };
+
+  const handleAddPlaceClick = () => {
+    setIsAddPlacePopupOpen(true)
+  };
+
+  const closeAllPopups = () => {
+    setIsEditAvatarPopupOpen(false);
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+  };
+
   return (
     <div className="page">
       <div className="page__container">
 
         <Header />
-        <Main />
+        <Main 
+          handleEditAvatarClick={handleEditAvatarClick}
+          handleEditProfileClick={handleEditProfileClick}
+          handleAddPlaceClick={handleAddPlaceClick}
+        />
         <Footer />
 
       </div> 
-      <PopupWithForm name="edit-profile" title="Edit Profile">
+      <PopupWithForm name="edit-profile" title="Edit Profile" isOpen={isEditProfilePopopOpen} onClose={closeAllPopups}>
         <fieldset className="popup__info">
           <div className="popup__label">
             <input id="profile-name" type="text" name="name" className="popup__field popup__field_type_name" placeholder="Name" required minLength="2" maxLength="40" />
@@ -26,25 +55,22 @@ function App() {
             <span id="profile-title-error" className="popup__error"></span>
           </div>
         </fieldset>
-        <input type="submit" className="popup__button" value="Save" disabled />
       </PopupWithForm>
 
-      <PopupWithForm name="edit-avatar" title="Change profile picture">
+      <PopupWithForm name="edit-avatar" title="Change profile picture" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <fieldset className="popup__info">
           <div className="popup__label">
             <input id="profile-avatar" type="url" name="avatar" className="popup__field popup__field_type_url" placeholder="Profile picture URL" required />
             <span id="profile-avatar-error" className="popup__error"></span>
           </div>
         </fieldset>
-        <input type="submit" className="popup__button" value="Save" disabled />
       </PopupWithForm>
 
       <PopupWithForm name="delete-card" title="Are your sure?">
         <h3 className="popup__heading popup__heading_type_no-inputs">Are you sure?</h3>
-        <input type="submit" className="popup__button" value="Yes" />
       </PopupWithForm>
 
-      <PopupWithForm name="add-card" title="New Place">
+      <PopupWithForm name="add-card" title="New Place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
         <fieldset className="popup__info">
           <div className="popup__label">
             <input id="card-title" type="text" name="title" className="popup__field popup__field_type_card-title" placeholder="Title" required minLength="1" maxLength="30" />
@@ -55,7 +81,6 @@ function App() {
             <span id="card-url-error" className="popup__error"></span>
           </div>
         </fieldset>
-        <input type="submit" className="popup__button" value="Save" disabled />
       </PopupWithForm>
 
       <ImagePopup />
