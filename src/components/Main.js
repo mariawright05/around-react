@@ -1,19 +1,50 @@
 import React from 'react';
-import avatar from '../images/avatar.jpg';
+import api from '../utils/api.js';
+import Card from './Card';
 
-function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick }) {
+function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick, handleCardClick }) {
+
+  // API
+  const [userName, setUserName] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState();
+  const [cards, setCards] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getUserInfo()
+    .then((res) => {
+      setUserName(res.name);
+      setUserAvatar(res.avatar);
+      setUserDescription(res.title)
+    })
+    .catch(err => console.log(err))
+  }, []);
+
+  React.useEffect(() => {
+    api.getCardList()
+    .then((res) => {
+      setCards(res.map((card) => ({
+        link:card.link,
+        name: card.name,
+        likes: card.likes,
+        _id: card._id
+      })));
+    })
+    .catch(err => console.log(err))
+    }, []);
+  
 
   return (
     <main>
       <section className="profile">
         <div className="profile__user-container">
           <div className="profile__avatar-container">
-            <img className="profile__user-avatar" src={avatar} alt="" />
+            <img className="profile__user-avatar" style={{ backgroundImage: `url(${userAvatar})` }} alt={userName} />
             <button className="profile__user-avatar_overlay" onClick={handleEditAvatarClick}></button>
           </div>
           <div className="profile__user-info">
-            <h1 className="profile__user-name">Jacques Cousteau</h1>
-            <p className="profile__user-about">Explorer</p>
+            <h1 className="profile__user-name">{userName}</h1>
+            <p className="profile__user-about">{userDescription}</p>
             <button className="profile__edit-button" onClick={handleEditProfileClick}></button>
           </div>
         </div>
@@ -22,6 +53,17 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
 
       <section>
         <ul className="photo-grid">
+          {cards.map((card, index) => 
+            <Card 
+              key={index}
+              card={card}
+              name={card.name}
+              link={card.link}
+              likes={card.likes}
+              _id={card._id}
+              owner={card.owner}
+              onCardClick={() => handleCardClick(card.link, card.name)} />
+          )}
         </ul>
       </section>
     </main>

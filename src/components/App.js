@@ -1,16 +1,22 @@
 import React from 'react';
 import Header from './Header.js';
-import Main from './Main';
-import Footer from './Footer';
+import Main from './Main.js';
+import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
-import ImagePopup from './ImagePopup';
+import ImagePopup from './ImagePopup.js';
 
 function App(props) {
 
+  // POPUPS
   // set states for popups
   const [isEditProfilePopopOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(false);
+
+  // set states for image popups
+  const [selectedLink, setSelectedLink] = React.useState('');
+  const [selectedName, setSelectedName] = React.useState('');
 
   // handler functions for popups  
   const handleEditAvatarClick = () => {
@@ -25,11 +31,20 @@ function App(props) {
     setIsAddPlacePopupOpen(true)
   };
 
+  const handleCardClick = (link, name) => {
+    setSelectedCard(true);
+    setSelectedLink(link);
+    setSelectedName(name);
+  }
+
   const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(false);
   };
+
+
 
   return (
     <div className="page">
@@ -40,6 +55,7 @@ function App(props) {
           handleEditAvatarClick={handleEditAvatarClick}
           handleEditProfileClick={handleEditProfileClick}
           handleAddPlaceClick={handleAddPlaceClick}
+          handleCardClick={handleCardClick}
         />
         <Footer />
 
@@ -83,26 +99,13 @@ function App(props) {
         </fieldset>
       </PopupWithForm>
 
-      <ImagePopup />
+      <ImagePopup 
+        onClose={closeAllPopups}
+        isOpen={selectedCard}
+        link={selectedLink}
+        name={selectedName}
+      />
 
-      
-
-
-
-
-      <template className="card-template">
-        <li className="photo-grid__item">
-          <div className="photo-grid__image"></div>
-          <button className="photo-grid__remove"></button>
-          <div className="photo-grid__title-container">
-            <h2 className="photo-grid__title">#</h2>
-            <div className="photo-grid__like-wrapper">
-              <button className="photo-grid__like"></button>
-              <p className="photo-grid__like-count"></p>
-            </div>
-          </div>
-        </li>
-      </template>
     </div>
   );
 }
