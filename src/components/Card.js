@@ -7,8 +7,8 @@ function Card(props) {
   }
 
   return (
-    <li className="photo-grid__item" onClick={handleClick}>
-    <div className="photo-grid__image" style={{ backgroundImage: `url(${props.link})` }}></div>
+    <li className="photo-grid__item">
+    <div className="photo-grid__image" style={{ backgroundImage: `url(${props.link})` }} onClick={handleClick}></div>
       <button className="photo-grid__remove"></button>
       <div className="photo-grid__title-container">
         <h2 className="photo-grid__title">{props.name}</h2>

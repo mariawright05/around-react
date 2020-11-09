@@ -5,23 +5,19 @@ import Card from './Card';
 function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick, handleCardClick }) {
 
   // API
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userName, setUserName] = React.useState('');
+  const [userDescription, setUserDescription] = React.useState('');
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getUserInfo()
-    .then((res) => {
-      setUserName(res.name);
-      setUserAvatar(res.avatar);
-      setUserDescription(res.title)
+    api.getAppInfo()
+    .then(([userData, initialCardList]) => {
+      setUserName(userData.name);
+      setUserAvatar(userData.avatar);
+      setUserDescription(userData.description);
+      return(initialCardList);
     })
-    .catch(err => console.log(err))
-  }, []);
-
-  React.useEffect(() => {
-    api.getCardList()
     .then((res) => {
       setCards(res.map((card) => ({
         link:card.link,
@@ -31,8 +27,7 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
       })));
     })
     .catch(err => console.log(err))
-    }, []);
-  
+  }, []);
 
   return (
     <main>
