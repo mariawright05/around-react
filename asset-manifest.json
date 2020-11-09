@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/around-react/static/css/main.94b05b3b.chunk.css",
+    "main.js": "/around-react/static/js/main.7bd0b308.chunk.js",
+    "main.js.map": "/around-react/static/js/main.7bd0b308.chunk.js.map",
+    "runtime-main.js": "/around-react/static/js/runtime-main.31416bc8.js",
+    "runtime-main.js.map": "/around-react/static/js/runtime-main.31416bc8.js.map",
+    "static/js/2.16204ce2.chunk.js": "/around-react/static/js/2.16204ce2.chunk.js",
+    "static/js/2.16204ce2.chunk.js.map": "/around-react/static/js/2.16204ce2.chunk.js.map",
+    "static/js/3.ad350619.chunk.js": "/around-react/static/js/3.ad350619.chunk.js",
+    "static/js/3.ad350619.chunk.js.map": "/around-react/static/js/3.ad350619.chunk.js.map",
+    "index.html": "/around-react/index.html",
+    "static/css/main.94b05b3b.chunk.css.map": "/around-react/static/css/main.94b05b3b.chunk.css.map",
+    "static/js/2.16204ce2.chunk.js.LICENSE.txt": "/around-react/static/js/2.16204ce2.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/around-react/static/media/trash.4c9b901f.svg",
+    "static/media/usa-logo-white.8f76e1a6.svg": "/around-react/static/media/usa-logo-white.8f76e1a6.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.31416bc8.js",
+    "static/js/2.16204ce2.chunk.js",
+    "static/css/main.94b05b3b.chunk.css",
+    "static/js/main.7bd0b308.chunk.js"
+  ]
+}
