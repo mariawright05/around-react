@@ -2,7 +2,7 @@
 
 ## Project Link
 
-<https://mariawright05.github.io/web_project_4/>
+<https://mariawright05.github.io/around-react/>
 
 ## Project Description
 
