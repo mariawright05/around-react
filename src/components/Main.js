@@ -8,6 +8,36 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
   // USER INFO
   const currentUser = React.useContext(CurrentUserContext);
 
+  // LIKES & DISLIKES API
+  function handleCardLike(card) {
+    // Check one more time if this card was already liked
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    let res;
+
+    if (isLiked === false) {
+      res = api.cardLikeAdd(card._id)
+      } else {
+      res = api.cardLikeRemove(card._id)
+    }
+    res.then((newCard) => {
+      // Create a new array based on the existing one and putting a new card into it
+      const newCards = cards.map((c) => c._id === card._id ? newCard : c)
+      // Update the state
+      setCards(newCards);
+    })
+    .catch(err => console.log(err));
+  }
+
+  // TRASH API
+  function handleCardDelete(card) {
+    api.removeCard(card._id)
+    .then(() => {
+      const newCardList = cards.filter((c) => c._id !== card._id);
+      setCards(newCardList);
+    })
+    .catch(err => console.log(err));
+  }
+
   // API
   const [cards, setCards] = React.useState([]);
 
@@ -53,7 +83,9 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
               likes={card.likes}
               _id={card._id}
               owner={card.owner}
-              onCardClick={() => handleCardClick(card.link, card.name)} />
+              onCardClick={() => handleCardClick(card.link, card.name)}
+              onCardLike={() => handleCardLike(card)}
+              onCardDelete={() => handleCardDelete(card)} />
           )}
         </ul>
       </section>

@@ -28,14 +28,24 @@ function Card(props) {
     props.onCardClick(props.card);
   }
 
+  // Changes likes on click
+  function handleLikeClick() {
+    props.onCardLike(props.card);
+  }
+
+  // Deletes card on trash click
+  function handleDeleteClick() {
+    props.onCardDelete(props.card);
+  }
+
   return (
     <li className="photo-grid__item">
     <div className="photo-grid__image" style={{ backgroundImage: `url(${props.link})` }} onClick={handleClick}></div>
-      <button className={cardDeleteButtonClassName}></button>
+      <button className={cardDeleteButtonClassName} onClick={handleDeleteClick}></button>
       <div className="photo-grid__title-container">
         <h2 className="photo-grid__title">{props.name}</h2>
         <div className="photo-grid__like-wrapper">
-          <button className={cardLikeButtonClassName}></button>
+          <button className={cardLikeButtonClassName} onClick={handleLikeClick}></button>
           <p className="photo-grid__like-count">{props.likes.length}</p>
         </div>
       </div>
