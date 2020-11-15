@@ -1,23 +1,18 @@
 import React from 'react';
 import api from '../utils/api.js';
 import Card from './Card';
+import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick, handleCardClick }) {
 
+  // USER INFO
+  const currentUser = React.useContext(CurrentUserContext);
+
   // API
-  const [userName, setUserName] = React.useState('');
-  const [userDescription, setUserDescription] = React.useState('');
-  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getAppInfo()
-    .then(([userData, initialCardList]) => {
-      setUserName(userData.name);
-      setUserAvatar(userData.avatar);
-      setUserDescription(userData.description);
-      return(initialCardList);
-    })
+    api.getCardList()
     .then((res) => {
       setCards(res.map((card) => ({
         link:card.link,
@@ -34,12 +29,12 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
       <section className="profile">
         <div className="profile__user-container">
           <div className="profile__avatar-container">
-            <img className="profile__user-avatar" style={{ backgroundImage: `url(${userAvatar})` }} alt={userName} />
+            <img className="profile__user-avatar" style={{ backgroundImage: `url(${currentUser.avatar})` }} alt={currentUser.name} />
             <button className="profile__user-avatar_overlay" onClick={handleEditAvatarClick}></button>
           </div>
           <div className="profile__user-info">
-            <h1 className="profile__user-name">{userName}</h1>
-            <p className="profile__user-about">{userDescription}</p>
+            <h1 className="profile__user-name">{currentUser.name}</h1>
+            <p className="profile__user-about">{currentUser.about}</p>
             <button className="profile__edit-button" onClick={handleEditProfileClick}></button>
           </div>
         </div>

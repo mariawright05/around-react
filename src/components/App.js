@@ -4,6 +4,8 @@ import Main from './Main.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
+import CurrentUserContext from '../contexts/CurrentUserContext';
+import api from '../utils/api.js';
 
 function App(props) {
 
@@ -44,9 +46,17 @@ function App(props) {
     setSelectedCard(false);
   };
 
-
+  // USER DATA
+  const [currentUser, setCurrentUser] = React.useState('');
+  
+  React.useEffect(() => {
+    api.getUserInfo()
+    .then((res) => setCurrentUser(res))
+    .catch(err => console.log(err))
+  }, []);
 
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
       <div className="page__container">
 
@@ -107,6 +117,7 @@ function App(props) {
       />
 
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
