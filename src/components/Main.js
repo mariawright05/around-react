@@ -18,7 +18,8 @@ function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceCl
         link:card.link,
         name: card.name,
         likes: card.likes,
-        _id: card._id
+        _id: card._id,
+        owner: card.owner
       })));
     })
     .catch(err => console.log(err))
