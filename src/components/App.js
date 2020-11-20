@@ -5,6 +5,8 @@ import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import ImagePopup from './ImagePopup.js';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import EditProfilePopup from './EditProfilePopup';
+import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api.js';
 
 function App(props) {
@@ -55,6 +57,20 @@ function App(props) {
     .catch(err => console.log(err))
   }, []);
 
+  function handleUpdateUser(userInfo) {
+      api.setUserInfo(userInfo)
+      .then(res => {setCurrentUser({name:res.name, about:res.about, avatar:res.avatar})})
+      .then(() => {closeAllPopups()})
+      .catch(err => console.log(err))
+  }
+
+  function handleUpdateAvatar(avatar) {
+    api.setUserAvatar(avatar)
+    .then(res => {setCurrentUser({name:res.name, about:res.about, avatar:res.avatar})})
+    .then(() => {closeAllPopups()})
+    .catch(err => console.log(err))
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="page">
@@ -70,27 +86,10 @@ function App(props) {
         <Footer />
 
       </div> 
-      <PopupWithForm name="edit-profile" title="Edit Profile" isOpen={isEditProfilePopopOpen} onClose={closeAllPopups}>
-        <fieldset className="popup__info">
-          <div className="popup__label">
-            <input id="profile-name" type="text" name="name" className="popup__field popup__field_type_name" placeholder="Name" required minLength="2" maxLength="40" />
-            <span id="profile-name-error" className="popup__error"></span>
-          </div>
-          <div className="popup__label">
-            <input id="profile-title" type="text" name="title" className="popup__field popup__field_type_title" placeholder="About me" required minLength="2" maxLength="200" />
-            <span id="profile-title-error" className="popup__error"></span>
-          </div>
-        </fieldset>
-      </PopupWithForm>
+      <EditProfilePopup isOpen={isEditProfilePopopOpen} onClose={closeAllPopups} handleUpdateUser={handleUpdateUser} />
+      <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} handleUpdateAvatar={handleUpdateAvatar} />
 
-      <PopupWithForm name="edit-avatar" title="Change profile picture" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups}>
-        <fieldset className="popup__info">
-          <div className="popup__label">
-            <input id="profile-avatar" type="url" name="avatar" className="popup__field popup__field_type_url" placeholder="Profile picture URL" required />
-            <span id="profile-avatar-error" className="popup__error"></span>
-          </div>
-        </fieldset>
-      </PopupWithForm>
+      
 
       <PopupWithForm name="delete-card" title="Are your sure?">
         <h3 className="popup__heading popup__heading_type_no-inputs">Are you sure?</h3>
