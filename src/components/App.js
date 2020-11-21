@@ -8,8 +8,9 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import api from '../utils/api.js';
+import AddPlacePopup from './AddPlacePopup.js';
 
-function App(props) {
+function App() {
 
   // POPUPS
   // set states for popups
@@ -32,7 +33,7 @@ function App(props) {
   };
 
   const handleAddPlaceClick = () => {
-    setIsAddPlacePopupOpen(true)
+    setIsAddPlacePopupOpen(true);
   };
 
   const handleCardClick = (link, name) => {
@@ -48,7 +49,30 @@ function App(props) {
     setSelectedCard(false);
   };
 
-  // LIKES & DISLIKES API
+  // api functions for popup data
+  function handleUpdateUser(userInfo) {
+    api.setUserInfo(userInfo)
+    .then(res => {setCurrentUser({ name:res.name, about:res.about, avatar:res.avatar })})
+    .then(() => {closeAllPopups()})
+    .catch(err => console.log(err))
+  }
+
+  function handleUpdateAvatar(avatar) {
+    api.setUserAvatar(avatar)
+    .then(res => {setCurrentUser({ name:res.name, about:res.about, avatar:res.avatar })})
+    .then(() => {closeAllPopups()})
+    .catch(err => console.log(err))
+  }
+
+  function handleAddPlaceSubmit(cardInfo) {
+    api.addCard(cardInfo)
+    .then(res => (setCards([...cards, res])))
+    .then(() => {closeAllPopups()})
+    .catch(err => console.log(err))
+  }
+
+  // CARD FUNCTIONALITY
+  // likes and dislikes
   function handleCardLike(card) {
     // Check one more time if this card was already liked
     const isLiked = card.likes.some(i => i._id === currentUser._id);
@@ -68,7 +92,7 @@ function App(props) {
     .catch(err => console.log(err));
   }
 
-  // TRASH API
+  // trash
   function handleCardDelete(card) {
     api.removeCard(card._id)
     .then(() => {
@@ -78,7 +102,8 @@ function App(props) {
     .catch(err => console.log(err));
   }
 
-  // API
+  // GETTING INITIAL DATA FROM SERVER
+  // initial cards
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
@@ -95,7 +120,7 @@ function App(props) {
     .catch(err => console.log(err))
   }, []);
 
-  // USER DATA
+  // initial user data
   const [currentUser, setCurrentUser] = React.useState('');
   
   React.useEffect(() => {
@@ -104,19 +129,7 @@ function App(props) {
     .catch(err => console.log(err))
   }, []);
 
-  function handleUpdateUser(userInfo) {
-      api.setUserInfo(userInfo)
-      .then(res => {setCurrentUser({name:res.name, about:res.about, avatar:res.avatar})})
-      .then(() => {closeAllPopups()})
-      .catch(err => console.log(err))
-  }
 
-  function handleUpdateAvatar(avatar) {
-    api.setUserAvatar(avatar)
-    .then(res => {setCurrentUser({name:res.name, about:res.about, avatar:res.avatar})})
-    .then(() => {closeAllPopups()})
-    .catch(err => console.log(err))
-  }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
@@ -138,24 +151,10 @@ function App(props) {
       </div> 
       <EditProfilePopup isOpen={isEditProfilePopopOpen} onClose={closeAllPopups} handleUpdateUser={handleUpdateUser} />
       <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} handleUpdateAvatar={handleUpdateAvatar} />
-
+      <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} handleAddPlaceSubmit={handleAddPlaceSubmit} />
       
-
       <PopupWithForm name="delete-card" title="Are your sure?">
         <h3 className="popup__heading popup__heading_type_no-inputs">Are you sure?</h3>
-      </PopupWithForm>
-
-      <PopupWithForm name="add-card" title="New Place" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups}>
-        <fieldset className="popup__info">
-          <div className="popup__label">
-            <input id="card-title" type="text" name="title" className="popup__field popup__field_type_card-title" placeholder="Title" required minLength="1" maxLength="30" />
-            <span id="card-title-error" className="popup__error"></span>
-          </div>
-          <div className="popup__label">
-            <input id="card-url" type="url" name="url" className="popup__field popup__field_type_url" placeholder="Image link" required />
-            <span id="card-url-error" className="popup__error"></span>
-          </div>
-        </fieldset>
       </PopupWithForm>
 
       <ImagePopup 

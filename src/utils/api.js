@@ -32,13 +32,13 @@ class Api {
 
   // 4. Adds new card to server from add card form
   // POST https://around.nomoreparties.co/v1/groupId/cards
-  addCard({ title, url, }) {
+  addCard({ name, link }) {
     return fetch(this._baseUrl + '/cards', {
       headers: this._headers,
       method: "POST",
       body: JSON.stringify({
-        name: title, 
-        link: url
+        name: name, 
+        link: link
       })
     })
     .then(res => res.ok ? res.json() : Promise.reject('Error! ' + res.statusText))

@@ -4,10 +4,7 @@ import CurrentUserContext from '../contexts/CurrentUserContext';
 
 function Main ({ handleEditAvatarClick, handleEditProfileClick, handleAddPlaceClick, handleCardClick, cards, handleCardLike, handleCardDelete }) {
 
-  // USER INFO
   const currentUser = React.useContext(CurrentUserContext);
-
-  
 
   return (
     <main>
