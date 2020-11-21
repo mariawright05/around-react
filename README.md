@@ -1,4 +1,4 @@
-# Project 10: Around React
+# Project 11: Around React
 
 ## Project Link
 
@@ -24,3 +24,8 @@ Some of the skills used are:
 - Project structures
 - Debugging and React DevTools
 - Hooks and effect dependencies
+- Lifting state
+- Global state
+- Creating and subscribing to a context
+- Working with forms
+- Refs
