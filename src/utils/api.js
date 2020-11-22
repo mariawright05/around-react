@@ -17,7 +17,6 @@ class Api {
       headers: this._headers
     })
     .then(res => res.ok ? res.json() : Promise.reject('Error! ' + res.statusText))
-    .catch(err => console.log(err))
   }
 
   // 1. Loads user info from the server
@@ -27,7 +26,6 @@ class Api {
       headers: this._headers
     })
     .then(res => res.ok ? res.json() : Promise.reject('Error! ' + res.statusText))
-    .catch(err => console.log(err))
   }
 
   // 4. Adds new card to server from add card form

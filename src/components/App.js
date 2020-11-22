@@ -76,13 +76,8 @@ function App() {
   function handleCardLike(card) {
     // Check one more time if this card was already liked
     const isLiked = card.likes.some(i => i._id === currentUser._id);
-    let res;
+    let res = !isLiked ? api.cardLikeAdd(card._id) : api.cardLikeRemove(card._id);
 
-    if (isLiked === false) {
-      res = api.cardLikeAdd(card._id)
-      } else {
-      res = api.cardLikeRemove(card._id)
-    }
     res.then((newCard) => {
       // Create a new array based on the existing one and putting a new card into it
       const newCards = cards.map((c) => c._id === card._id ? newCard : c)
@@ -121,7 +116,7 @@ function App() {
   }, []);
 
   // initial user data
-  const [currentUser, setCurrentUser] = React.useState('');
+  const [currentUser, setCurrentUser] = React.useState({});
   
   React.useEffect(() => {
     api.getUserInfo()
