@@ -7,6 +7,8 @@ function EditProfilePopup(props) {
 
   const currentUser = React.useContext(CurrentUserContext);
 
+
+
   const [userName, setUserName] = React.useState('');
   const [userAbout, setUserAbout] = React.useState('');
 
@@ -28,14 +30,16 @@ function EditProfilePopup(props) {
   }
 
   React.useEffect(() => {
-    if (currentUser) {
+    if (!currentUser) {
       setUserName(currentUser.name);
       setUserAbout(currentUser.about);
     }
   }, [currentUser]);
 
+
+
   return (
-    <PopupWithForm name="edit-profile" title="Edit Profile" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
+    <PopupWithForm formName="edit-profile" title="Edit Profile" isOpen={props.isOpen} onClose={props.onClose} onSubmit={handleSubmit}>
       <fieldset className="popup__info">
         <div className="popup__label">
           <input id="profile-name" type="text" name="name" className="popup__field popup__field_type_name" placeholder={"Name"} value={userName} required minLength="2" maxLength="40" onChange={handleUserNameChange} />
@@ -46,6 +50,7 @@ function EditProfilePopup(props) {
           <span id="profile-title-error" className="popup__error"></span>
         </div>
       </fieldset>
+      {console.log(userName, userAbout)}
     </PopupWithForm>
   )
 }
